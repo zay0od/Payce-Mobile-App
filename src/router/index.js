@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
-import Home from '../views/HomePage.vue'
+import HomeView from '../views/HomeView.vue'
+import ItemDetails from '../views/ItemDetails.vue'
+// eslint-disable-next-line no-unused-vars
+import AddUser from '../views/AddUser.vue'
 
 const routes = [
   {
@@ -9,7 +12,17 @@ const routes = [
   {
     path: '/home',
     name: 'Home',
-    component: Home
+    component: HomeView
+  },
+  {
+    path: '/new-user',
+    name: 'NewUser',
+    component: AddUser
+  },
+  {
+    path: '/details/:id',
+    name: 'Details',
+    component: ItemDetails
   }
 ]
 

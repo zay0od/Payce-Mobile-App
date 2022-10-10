@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Payce</string>
+    <string name="title_activity_main">Payce</string>
+    <string name="package_name">com.payce.io</string>
+    <string name="custom_url_scheme">com.payce.io</string>
+</resources>
