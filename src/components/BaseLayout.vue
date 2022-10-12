@@ -10,10 +10,21 @@
         </ion-buttons>
 
         <IonTitle>{{ pageTitle }}</IonTitle>
-        
+
+      
+        <!-- <ion-buttons slot="end">
+          <slot name="actions-start">
+            <ion-button router-link="/face-detection">Pay by face</ion-button>
+          </slot>
+        </ion-buttons> -->
+
+
+
+
         <ion-buttons slot="end">
           <slot name="actions-end"></slot>
         </ion-buttons>
+        
       </ion-toolbar>
 
     
@@ -34,6 +45,7 @@ import {
   IonTitle,
   IonContent,
   IonButtons,
+  IonButton,
   IonBackButton,
 } from "@ionic/vue";
 export default {
@@ -44,6 +56,7 @@ export default {
     IonTitle,
     IonContent,
     IonButtons,
+    IonButton,
     IonBackButton,
   },
   props: {

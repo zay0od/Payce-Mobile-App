@@ -3,32 +3,52 @@ import { createStore } from 'vuex';
 const store = createStore({
     state(){
         return {
+            invoice: { totalAmount: 0, products: {  "1": { count:0, price: 0} } },
             clients:[
                 {
-                    id:"user1",
+                    id:"Zayed",
                     name: "Zayed Al Blushi",
-                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeeUl9IZDN97pBQNgeunx6dD1df-4g7vkPFw&usqp=CAU",
-                    pin: "1345"
+                    image: "https://raw.githubusercontent.com/0072007ss/AItest/master/labeled_images/Zayed/3.jpg",
+                    pin: "1111"
                 },
                 {
-                    id:"user2",
-                    name: "Ahmed Mohammed",
-                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTskZZRN73n7mIPS6dDsFkd8xsD_hw0k0Vh4CXVCD_2HmrBHAXbe4bkBKS-fI6qlWCd_7c&usqp=CAU",
-                    pin: "5324"
-                },
-                {
-                    id:"user3",
-                    name: "Engineer Abu Baker",
-                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5qZWrKpx9mJWfLUk-SlGC9F6ME43mlmLtEAy4j_xpD59KcJGmn4sAJGdJ1XDiCmbukAM&usqp=CAU",
-                    pin: "7632"
-                },
-                {
-                    id:"user4",
+                    id:"sohrab",
                     name: "Sohrab",
-                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSbYw7jpAT4jd7j3j1QQAfWqQC44jf_n1kxo09x7khBk55GGJE55nNQpaj12U3k_-wFno&usqp=CAU",
-                    pin: "1643"
+                    image: "https://raw.githubusercontent.com/0072007ss/AItest/master/labeled_images/sohrab/3.jpg",
+                    pin: "2222"
                 },
+                {
+                    id:"Abubaker",
+                    name: "Engineer AbuBaker",
+                    image: "https://raw.githubusercontent.com/0072007ss/AItest/master/labeled_images/Abubaker/3.jpg",
+                    pin: "3333"
+                },
+            ],
+            products:[
+                {
+                    id:"1",
+                    name: "Cookies",
+                    describtion: "20 Pcs Cookies Box",
+                    image: "https://raw.githubusercontent.com/0072007ss/AItest/master/labeled_images/Zayed/3.jpg",
+                    price: 120
+                },
+                {
+                    id:"2",
+                    name: "Cake",
+                    describtion: "20 Pcs Cake Box",
+                    image: "https://raw.githubusercontent.com/0072007ss/AItest/master/labeled_images/Zayed/3.jpg",
+                    price: 215
+                },
+                {
+                    id:"3",
+                    name: "Brownies",
+                    describtion: "20 Pcs Brownies Box",
+                    image: "https://raw.githubusercontent.com/0072007ss/AItest/master/labeled_images/Zayed/3.jpg",
+                    price: 100
+                },
+       
             ]
+
         }
     },
     mutations: {

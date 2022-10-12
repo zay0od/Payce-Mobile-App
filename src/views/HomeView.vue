@@ -9,6 +9,11 @@
             <ion-icon slot="icon-only" :icon="add"></ion-icon>
         </ion-button>
 
+        <ion-button router-link="/face-detection">
+            Pay by Face
+        </ion-button>
+
+
     </template>
 
 
@@ -20,11 +25,14 @@
                 <IonLabel>{{ client.name }}</IonLabel>
             </IonItem>
     </IonList>
+    
+
     </BaseLayout>
 </template>
 
 <script>
 import { IonList, IonItem, IonThumbnail, IonLabel, IonButton, IonIcon } from "@ionic/vue"
+
 // eslint-disable-next-line no-unused-vars
 import { add } from "ionicons/icons"
 import BaseLayout from "../components/BaseLayout"
