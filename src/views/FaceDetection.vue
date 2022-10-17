@@ -5,11 +5,62 @@
     pageTitle="Payce Item Details"
     pageDefaultBackPage="/home"
   >
-    <ion-progress-bar v-if="!loaded" type="indeterminate" color="primary"></ion-progress-bar>
+    <ion-progress-bar
+      v-if="!loaded"
+      type="indeterminate"
+      color="primary"
+    ></ion-progress-bar>
 
-    amount: {{ $store.state.invoice }}
+    <div
+      class="canvas-body d-flex justify-content-center align-content-center p-2"
+    >
+      <ion-card class="w-100 m-3">
+        <ion-card-header>
+          <ion-card-title>Cart Summary</ion-card-title>
+          <ion-card-subtitle>My Cart</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            <table class="w-100">
+              <thead>
+                <tr>
+                  <th scope="col"><small>Product name</small></th>
+                  <th scope="col"><small>Qty</small></th>
+                  <th class="ps-3" scope="col"><small>Price</small></th>
+                </tr>
+              </thead>
 
-    <div class="canvas-body d-flex justify-content-center align-content-center p-2">
+              <tbody>
+                <tr
+                  v-for="product in Object.keys(cartSummary.products)"
+                  :key="product.name"
+                >
+                
+                  <td v-if="cartSummary.products[product].count > 0">
+                    <h6>{{ cartSummary.products[product].name }}</h6>
+                  </td>
+                  <td v-if="cartSummary.products[product].count > 0">
+                    <h6>{{ cartSummary.products[product].count }}</h6>
+                  </td>
+                  <td class="ps-3" v-if="cartSummary.products[product].count > 0">
+                    <h6>{{ cartSummary.products[product].price }}</h6>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div
+              class="d-flex border-top mt-4 pt-1 justify-content-between align-items-center summary-footer"
+            >
+              <h5>Total</h5>
+              <h5>
+                <small class="pe-2">AED</small>{{ cartSummary.totalAmount }}
+              </h5>
+            </div>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+
       <div v-show="!loaded">
         <h3>Loading Face Recognition Model...</h3>
       </div>
@@ -18,24 +69,55 @@
         <div>
           <div v-if="!detectedlabels.length">
             <h3>Please Scan your face to pay</h3>
-            <input type="file" id="imageUpload" capture="user" accept="image/*" />
+
+            <input
+              type="file"
+              id="imageUpload"
+              capture="user"
+              accept="image/*"
+            />
           </div>
 
-          <div v-else-if="detectedlabels.includes('unknown')" class="face-is-detected">
+          <div
+            v-else-if="detectedlabels.includes('unknown')"
+            class="face-is-detected"
+          >
             <h3>Sorry no faces has been detected</h3>
-            <input type="file" id="imageUpload" capture="user" accept="image/*" />
+            <input
+              type="file"
+              id="imageUpload"
+              capture="user"
+              accept="image/*"
+            />
           </div>
 
           <div v-else class="face-is-detected">
-            <img class="border loaded-img" :src="loadedImgSource" :alt="`${detectedlabels} face image`">
-            <h3>Face is Detected: {{ detectedlabels }}</h3>
+            <img
+              class="border loaded-img rounded"
+              :src="loadedImgSource"
+              :alt="`${detectedlabels} face image`"
+            />
+            <h3>Welcome, {{ detectedlabels[0] }}</h3>
+            <div>
+              <h4><small>Please enter 4 digit PIN</small></h4>
+              <!-- Number type input -->
+              <IonInput
+                v-model="passCode"
+                type="password"
+                class="border"
+                :maxlength="4"
+                placeholder="* * * *"
+              ></IonInput>
+              <ion-button
+                :disabled="!validCheckout"
+                class="pt-3 w-100"
+                @click="checkOut()"
+                expand="block"
+                >Checkout</ion-button
+              >
+            </div>
           </div>
-          
-          
-          
         </div>
-
-
       </div>
     </div>
   </BaseLayout>
@@ -44,18 +126,58 @@
 <script>
 import * as faceapi from "../AIFaceID/face-api.min.js";
 import BaseLayout from "../components/BaseLayout";
-import { IonProgressBar } from '@ionic/vue';
+import {
+  IonProgressBar,
+  IonInput,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
+  alertController,
+} from "@ionic/vue";
 
 export default {
-  components: { BaseLayout, IonProgressBar },
+  components: {
+    BaseLayout,
+    IonInput,
+    IonProgressBar,
+    IonCard,
+    IonCardContent,
+    IonCardHeader,
+    IonCardSubtitle,
+    IonCardTitle,
+  },
   data() {
     return {
       loaded: false,
       detectedlabels: [],
-      loadedImgSource: null
+      loadedImgSource: null,
+      passCode: "",
     };
   },
   methods: {
+    checkOut() {
+      this.presentAlert();
+    },
+    async presentAlert() {
+      const alert = await alertController.create({
+        header: "✅ Sucess Payment",
+        subHeader: "We recived your payment",
+        message: "Thank you!",
+        buttons: [
+          {
+            text: "Confirm",
+            role: "confirm",
+            handler: () => {
+              this.$router.replace("/home");
+            },
+          },
+        ],
+      });
+
+      await alert.present();
+    },
     async start() {
       const imageUpload = document.getElementById("imageUpload");
 
@@ -74,8 +196,8 @@ export default {
         if (canvas) canvas.remove();
 
         image = await faceapi.bufferToImage(imageUpload.files[0]);
-        console.log(image)
-        this.loadedImgSource = image.src //store Image Source
+        console.log(image);
+        this.loadedImgSource = image.src; //store Image Source
 
         container.append(image);
         canvas = faceapi.createCanvasFromMedia(image);
@@ -120,17 +242,13 @@ export default {
     },
 
     loadLabeledImages() {
-      const labels = [
-        "sohrab",
-        "Zayed",
-        "Abubaker"
-      ];
+      const labels = ["sohrab", "Zayed", "Abubaker"];//Test imageas labels
       return Promise.all(
         labels.map(async (label) => {
           const descriptions = [];
           for (let i = 1; i <= 2; i++) {
             const img = await faceapi.fetchImage(
-              `https://raw.githubusercontent.com/0072007ss/AItest/master/labeled_images/${label}/${i}.jpg`
+              `https://example.com/labeled_images/${label}/${i}.jpg`
             );
             const detections = await faceapi
               .detectSingleFace(img)
@@ -142,6 +260,24 @@ export default {
           return new faceapi.LabeledFaceDescriptors(label, descriptions);
         })
       );
+    },
+  },
+  computed: {
+    validCheckout() {
+      let user = this.$store.state.clients.filter((user) => {
+        return user.id == this.detectedlabels[0];
+      });
+      let isValid = this.passCode == user[0].pin;
+
+      return isValid;
+      //console.log(this.passCode, '  -  ',  user[0].pin)
+      //console.log(isValid)
+    },
+    cartSummary() {
+      return this.$store.state.invoice;
+    },
+    productsList() {
+      return this.$store.state.products;
     },
   },
   mounted() {
@@ -158,7 +294,6 @@ export default {
   padding-top: 30px;
   width: 100%;
   max-height: 100%;
-  height: 100%;
   display: flex;
   justify-content: start;
   align-items: center;
@@ -182,28 +317,32 @@ export default {
   max-height: 200px;
 }
 
-.ai-res-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+.ai-res-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
-.ai-res-container div{
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-
+.ai-res-container div {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
-.ai-res-container input{
-    text-align: center;
-    padding: 20px;
+.ai-res-container input {
+  text-align: center;
+  padding: 20px;
 }
-.loaded-img{
-  max-width: 170px;
-  width: 170px;
+.loaded-img {
+  max-width: 120px;
+  width: 120px;
+}
+
+.summary-footer h5 {
+  font-size: 1rem !important;
+  font-weight: bold;
 }
 </style>

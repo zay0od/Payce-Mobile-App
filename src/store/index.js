@@ -3,7 +3,7 @@ import { createStore } from 'vuex';
 const store = createStore({
     state(){
         return {
-            invoice: { totalAmount: 0, products: {  "1": { count:0, price: 0} } },
+            invoice: { totalAmount: 0, products: {  "1": { count:0, price: 0, name: "-"} } },
             clients:[
                 {
                     id:"Zayed",
@@ -19,7 +19,7 @@ const store = createStore({
                 },
                 {
                     id:"Abubaker",
-                    name: "Engineer AbuBaker",
+                    name: "AbuBaker",
                     image: "https://raw.githubusercontent.com/0072007ss/AItest/master/labeled_images/Abubaker/3.jpg",
                     pin: "3333"
                 },

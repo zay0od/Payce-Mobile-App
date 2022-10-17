@@ -51,7 +51,8 @@ export default {
 
       this.$store.state.invoice.products[this.product.id] = {
           count: this.count,
-          price: this.product.price
+          price: this.product.price,
+          name: this.product.name
       }
     },
     addToCart() {
@@ -59,7 +60,8 @@ export default {
 
       this.$store.state.invoice.products[this.product.id] = {
           count: this.count,
-          price: this.product.price
+          price: this.product.price,
+          name: this.product.name
       }
 
       this.$emit("productChange", this.product.price);

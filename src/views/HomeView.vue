@@ -1,17 +1,21 @@
 /* eslint-disable vue/no-unused-components */
 
 <template>
-    <BaseLayout pageTitle="Payce Home">
+    <BaseLayout pageTitle="Admin Screen Payce Home">
     
     <template v-slot:actions-end>
 
-        <ion-button router-link="/new-user">
+        <!-- <ion-button router-link="/new-user">
+            <ion-icon slot="icon-only" :icon="add"></ion-icon>
+        </ion-button> -->
+
+         <ion-button router-link="/add-invoice">
             <ion-icon slot="icon-only" :icon="add"></ion-icon>
         </ion-button>
 
-        <ion-button router-link="/face-detection">
+        <!-- <ion-button router-link="/face-detection">
             Pay by Face
-        </ion-button>
+        </ion-button> -->
 
 
     </template>
